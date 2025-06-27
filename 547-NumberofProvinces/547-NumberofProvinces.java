@@ -1,26 +1,29 @@
-// Last updated: 6/27/2025, 4:27:08 PM
+// Last updated: 6/27/2025, 4:53:13 PM
 class Solution {
-    public int findCircleNum(int[][] isConnected) {
-        int ans = 0;
-        boolean visited[] = new boolean[isConnected.length];
+    public int maxAreaOfIsland(int[][] grid) {
+        int rows = grid.length, cols = grid[0].length;
+        boolean[][] visited = new boolean[rows][cols];
+        int maxIsland = 0;
 
-        for(int i=0;i<isConnected.length;i++){
-            if(!visited[i]){
-                depthFirstSearch(i,visited,isConnected);
-                ans++;
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                if (grid[r][c] == 1 && !visited[r][c]) {
+                    maxIsland = Math.max(maxIsland, dfs(grid, visited, r, c));
+                }
             }
         }
 
-        return ans;
+        return maxIsland;        
     }
 
-    void depthFirstSearch(int i,boolean visited[],int[][] isConnected) {
-        visited[i] = true;
-        for(int j=0;j<isConnected.length;j++){
-            if(isConnected[i][j]  == 1 && !visited[j]){
-                depthFirstSearch(j,visited,isConnected);
-            }
+    private int dfs(int[][] grid, boolean[][] visited, int r, int c) {
+        int rows = grid.length, cols = grid[0].length;
+        if (r < 0 || r >= rows || c < 0 || c >= cols || visited[r][c] || grid[r][c] == 0) {
+            return 0;
         }
-    }
 
+        visited[r][c] = true;
+        return 1 + dfs(grid, visited, r + 1, c) + dfs(grid, visited, r - 1, c)
+                 + dfs(grid, visited, r, c + 1) + dfs(grid, visited, r, c - 1);
+    }
 }
