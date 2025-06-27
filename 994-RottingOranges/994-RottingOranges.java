@@ -1,4 +1,4 @@
-// Last updated: 6/27/2025, 1:47:47 PM
+// Last updated: 6/27/2025, 1:48:52 PM
 class Solution {
     public int islandPerimeter(int[][] grid) {
         int perimeter = 0;
