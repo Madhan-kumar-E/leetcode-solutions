@@ -1,24 +1,39 @@
-// Last updated: 6/27/2025, 2:18:54 PM
+// Last updated: 6/27/2025, 2:20:51 PM
 class Solution {
-    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
-        int temp=image[sr][sc];
-        image[sr][sc]=color;
-        int m=image.length;
-        int n=image[0].length;
-        if (temp == color) return image; 
-        if(sc+1<n && image[sr][sc+1]==temp){
-           floodFill(image,sr,sc+1,color);
-        }
-        if(sc-1>=0 && image[sr][sc-1]==temp){
-           floodFill(image,sr,sc-1,color);
-        }
-        if(sr-1>=0 && image[sr-1][sc]==temp){
-           floodFill(image,sr-1,sc,color);
-        }
-        if(sr+1<m && image[sr+1][sc]==temp){
-           floodFill(image,sr+1,sc,color);
-        }
+    public int numIslands(char[][] grid) {
+        if (grid == null || grid.length == 0) return 0;
 
-        return image;
+        int islands = 0;
+        int rows = grid.length, cols = grid[0].length;
+
+        for (int i = 0; i < rows; i++)
+            for (int j = 0; j < cols; j++)
+                if (grid[i][j] == '1') {
+                    islands++;
+                    bfs(grid, i, j);
+                }
+
+        return islands;
+    }
+
+    private void bfs(char[][] grid, int i, int j) {
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[]{i, j});
+        grid[i][j] = '0';
+
+        int[][] dirs = {{1,0}, {-1,0}, {0,1}, {0,-1}};
+
+        while (!q.isEmpty()) {
+            int[] curr = q.poll();
+            for (int[] d : dirs) {
+                int ni = curr[0] + d[0];
+                int nj = curr[1] + d[1];
+
+                if (ni >= 0 && nj >= 0 && ni < grid.length && nj < grid[0].length && grid[ni][nj] == '1') {
+                    q.offer(new int[]{ni, nj});
+                    grid[ni][nj] = '0';
+                }
+            }
+        }
     }
 }
